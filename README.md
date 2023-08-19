@@ -1,1 +1,4 @@
-# Modelling_Caustic_Reflections
+### Project to accuratly model and plot caustics, envelopes and evolutes.
+
+
+
