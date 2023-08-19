@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
-
+from matplotlib.widgets import Slider, Button, RadioButtons
+# widgets for future use
 def plt_circle(r=1):
     theta = np.linspace(0, 2 * np.pi, 100)
     x = r * np.cos(theta)
