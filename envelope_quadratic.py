@@ -18,7 +18,7 @@ for i in range(len(x)):
 
 
 # Plot
-plt.title('Tangent plot of y=x^2')
+plt.title('Envelope of y=x^2')
 plt.xlim(-2, 2)
 plt.ylim(-1, 3)
 plt.tight_layout()
