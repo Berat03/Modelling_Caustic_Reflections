@@ -4,32 +4,45 @@ from sympy import *
 
 x, y, z = symbols('x y z')
 
-def plot_graph(function_str, envelope=True, evolute=True):
+def plot_graph(function_str, tangents=True, evolute=True, cusp = True):
     f = sympify(function_str)
-    x_vals = np.linspace(-3, 3, 75)
+    x_vals = np.linspace(-3, 3, 70)
     y_vals = [f.subs(x, val) for val in x_vals]
 
     plt.clf()
     plt.axhline(0, color='black', linewidth=0.8)
     plt.axvline(0, color='black', linewidth=0.8)
     plt.plot(x_vals, y_vals, color='red', linewidth=2, zorder=2)
-    if envelope or evolute:
+    if tangents or evolute or cusp:
         for i in range(len(x_vals)):
             tangent_eq = diff(f, x)
             tangent_slope = tangent_eq.subs(x, x_vals[i])
             tangent_intercept = y_vals[i] - tangent_slope * x_vals[i]
             tangent_line = tangent_slope * x_vals + tangent_intercept
-
+            print(tangent_slope)
             if tangent_slope == 0:  # catch zero division error
+                # when to use try except vs if/ else
                 normal_slope = np.inf
             else:
                 normal_slope = -1 / tangent_slope
-            if evolute:
+
+            if tangents:
+                plt.plot(x_vals, tangent_line, color='blue', alpha=0.5, zorder=1)
+
+            if evolute or cusp:
                 normal_intercept = y_vals[i] - normal_slope * x_vals[i]
                 normal_line = normal_slope * x_vals + normal_intercept
                 plt.plot(x_vals, normal_line, color='green', alpha=0.5, zorder=1)
-            if envelope:
-                plt.plot(x_vals, tangent_line, color='blue', alpha=0.5, zorder=1)
+
+
+                if cusp and tangent_slope == 0:
+                    print('aaa')
+                    print(x_vals[i])
+                    cusp_y_val = normal_slope * x_vals[i] + normal_intercept
+                    plt.plot(0, 2, marker='v', color='red')
+
+
+
     title_string = function_str.replace('**', '^')
     plt.title(f'Graph of {title_string}')
     plt.xlim(-3, 3)
@@ -40,7 +53,8 @@ def plot_graph(function_str, envelope=True, evolute=True):
 
 # Input the function as a string
 while True:
+    break
     function_str = input("Enter a function or press 'q' to quit: ").lower()
     if function_str == 'q':
         break
-    plot_graph(function_str)
+plot_graph('x**2')
